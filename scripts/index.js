@@ -15,11 +15,11 @@ addCard(containerCard, initialCards);
 
 function addCard(containerCard, initialCards) {
   for (i = 0; i < initialCards.length; i++) {
-    containerCard.append(creationsCard(cardTemplate, initialCards[i], deleteCard));
+    containerCard.append(creationsCard(cardTemplate, initialCards[i]));
   };
 }
 
-function creationsCard(cardTemplate, cardInfo, remove) {
+function creationsCard(cardTemplate, cardInfo) {
   const cardElement = cardTemplate.querySelector('.places__item').cloneNode(true);
 
   cardElement.querySelector('.card__title').textContent = cardInfo.name;
@@ -30,7 +30,7 @@ function creationsCard(cardTemplate, cardInfo, remove) {
 
   const deleteButton = cardElement.querySelector('.card__delete-button');
  
-  deleteButton.addEventListener('click', () => remove(cardElement));
+  deleteButton.addEventListener('click', () => { deleteCard(cardElement)});
 
   return cardElement;
 }
