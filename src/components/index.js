@@ -1,7 +1,10 @@
 import '../index.css';
 import { initialCards } from './cards.js';
 import { createCard, deleteCard, likeCard} from './card.js';
-import { openModal, closeModal} from './modal.js';
+import { openModal, closeModal, setCloseModalByClickListeners} from './modal.js';
+
+//Список модальных окон
+const modals = document.querySelectorAll('.popup');
 
 //Переменные: общий лист карточек
 const cardsContainer = document.querySelector('.places__list');
@@ -28,12 +31,12 @@ const newPlaceForm = document.forms['new-place'];
 const placeInput = newPlaceForm.querySelector('.popup__input_type_card-name'); 
 const imageInput = newPlaceForm.querySelector('.popup__input_type_url');
 
-//Переменные: Крестик модульного окна
-const popupCloseButton= document.querySelectorAll('.popup__close');
-
 //Переменные: Модальный окна карточки
 const typeImagePopup = document.querySelector('.popup_type_image');
 const popupImage = typeImagePopup.querySelector('.popup__image');
+
+//Работа: Создание закрытия на Оверлэй, Кристик, Esc
+setCloseModalByClickListeners(modals)
 
 //Работа: Модального окна редактора (каранддаш)
 profileEditButton.addEventListener('click', openFormProfile);

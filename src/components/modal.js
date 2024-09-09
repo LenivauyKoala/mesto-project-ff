@@ -1,25 +1,38 @@
-//Я правда пытался исправить первый коментарий но не смог разобраться и решил попробывать переписать код по другому (удалил в index.js удаление и повесил снятие обработчика)
+//Кажется я понял. И подумал почему Esc так же нельзя сделать? Но не стал делать вдруг это пока что не затрагивает но в будущем будут проблемы с ним
+//Думал добавить: document.addEventListener('keydown', closeModalByEsc);
+//В функцию: setCloseModalByClickListeners
 
-export function openModal(event) {
-  event.classList.add('popup_is-opened');
-  event.addEventListener('click', сloseOverlayOrCross);
-  document.addEventListener('keydown', сloseEsc);
+export function setCloseModalByClickListeners(popupList) {
+  popupList.forEach(popup => {
+    // находим кнопку закрытия попапа
+    const closeButton = popup.querySelector('.popup__close');
+
+    // вешаем обработчик закрытия на кнопку
+    closeButton.addEventListener('click', closeModalByOverlayOrCross);
+
+    // вешаем обработчик закрытия на оверлей
+    popup.addEventListener('click', closeModalByOverlayOrCross);
+  })
+} 
+
+export function openModal(modal) {
+  modal.classList.add('popup_is-opened');
+  document.addEventListener('keydown', closeModalByEsc);
 };
 
-export function closeModal(event) {
-  event.classList.remove('popup_is-opened');
-  document.removeEventListener('keydown', сloseEsc);
-  event.removeEventListener('click', сloseOverlayOrCross);
+export function closeModal(modal) {
+  modal.classList.remove('popup_is-opened');
+  document.removeEventListener('keydown', closeModalByEsc);
 };
 
 // Cross - Крест(крестик закрытия)
-function сloseOverlayOrCross(event) {
-  if (event.currentTarget === event.target || event.target.classList.value.includes("popup__close")) {
+function closeModalByOverlayOrCross(event) {
+  if (event.currentTarget === event.target || event.target.classList.contains("popup__close")) {
     closeModal(event.currentTarget)
   }
 };
 
-function сloseEsc(event) {
+function closeModalByEsc(event) {
   if (event.key === 'Escape') { 
     closeModal(document.querySelector('.popup_is-opened')); 
   }
