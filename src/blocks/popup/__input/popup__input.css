@@ -7,16 +7,31 @@
   line-height: 18px;
   box-sizing: border-box;
   padding: 10px 0 0;
-  margin-bottom: 10px;
-}
-
-.popup__input:last-of-type {
   margin-bottom: 0;
 }
-
+  
 @media screen and (max-width: 568px) {
   .popup__title {
     font-size: 12px;
     line-height: 15px;
   }
 }
+
+.popup__input_type_error {
+  border-bottom-color: red;
+
+  /* Нижняя рамка становится красной всякий раз, 
+  когда введённые данные некорректны */
+} 
+
+/* Текст ошибки */
+.popup__error_visible {
+  color: rgba(255, 0, 0, 1);
+  font-size: 12px;
+}
+
+.span-error {
+  display: flex;
+  height: 27px;
+}
+
