@@ -10,6 +10,18 @@
   cursor: pointer;
 }
 
+@media screen and (max-width: 740px) {
+  .profile__image {
+    margin: 0 10px 0 0;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .profile__image {
+    margin-right: 0;
+  }
+}
+
 .profile__image::before {
   content: "";
   display: block;
@@ -25,16 +37,4 @@
   background-color: rgba(0, 0, 0, 0.7);
   opacity: 1;
   transition: opacity 0.2s;
-}
-
-@media screen and (max-width: 740px) {
-  .profile__image {
-    margin: 0 10px 0 0;
-  }
-}
-
-@media screen and (max-width: 480px) {
-  .profile__image {
-    margin-right: 0;
-  }
 }

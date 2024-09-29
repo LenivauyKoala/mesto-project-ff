@@ -1,87 +1,107 @@
-const requestConfig = {
+export {
+  getInfoProfileFromServer,
+  patchInfoProfileOnServer,
+  getInfoCardsFromServer,
+  patchCardsOnServer,
+  deleteCardOnServer,
+  addLike,
+  deleteLike,
+  patchAvatarOnServer,
+}
+
+const config = {
   baseUrl: 'https://nomoreparties.co/v1/wff-cohort-23',
   headers: {
     authorization: 'f6cb9800-3604-45de-9049-9d278dc81a46',
-    'Content-Type': 'application/json',
-  },
-};
+    'Content-Type': 'application/json'
+  }
+}
 
-function handleApiReturn(res) {
+//Узнать ответ от сервера
+function getAnswerFromServer(res) {
   if (res.ok) {
     return res.json();
   }
   return Promise.reject(`Ошибка:${res.status}`);
 }
 
-//Информации о карточках
-export function getCardsFromApi() {
-  return fetch(`${requestConfig.baseUrl}/cards`, {
-    headers: requestConfig.headers,
-  }).then(handleApiReturn);
+//Получение информации о пользователе с сервера
+function getInfoProfileFromServer() {
+  return fetch(`${config.baseUrl}/users/me`, {
+    method: 'GET',
+    headers: config.headers
+  })
+    .then(getAnswerFromServer);
 }
 
-//Информации о пользователе с сервера
-export function getUserInfoFromApi() {
-  return fetch(`${requestConfig.baseUrl}/users/me`, {
-    headers: requestConfig.headers,
-  }).then(handleApiReturn);
-}
-
-//Обновить аватар
-export function updateAvatar(avatar) {
-  return fetch(`${requestConfig.baseUrl}/users/me/avatar`, {
+//Отправка новой информации профиля на сервер
+function patchInfoProfileOnServer(result) {
+  return fetch(`${config.baseUrl}/users/me`, {
     method: 'PATCH',
-    headers: requestConfig.headers,
+    headers: config.headers,
+    body: JSON.stringify({
+      name: result.name,
+      about: result.job,
+    }),
+  })
+    .then(getAnswerFromServer);
+}
+
+//Получение информации о карточках с сервера
+function getInfoCardsFromServer() {
+  return fetch(`${config.baseUrl}/cards`, {
+    method: 'GET',
+    headers: config.headers
+  })
+    .then(getAnswerFromServer);
+}
+
+//Отправка новой карточки на Сервер
+function patchCardsOnServer(result) {
+  return fetch(`${config.baseUrl}/cards`, {
+    method: 'POST',
+    headers: config.headers,
+    body: JSON.stringify({
+      name: result.name,
+      link: result.link,
+    }),
+  })
+    .then(getAnswerFromServer);
+}
+
+//Удалить крточку на сервере
+function deleteCardOnServer(cardId) {
+  return fetch(`${config.baseUrl}/cards/${cardId}`, {
+    method: 'DELETE',
+    headers: config.headers,
+  }).then(getAnswerFromServer);
+}
+
+//Добавить лайк на Сервер
+function addLike(cardId) {
+  return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
+    method: 'PUT',
+    headers: config.headers
+  })
+    .then(getAnswerFromServer);
+}
+
+//Удалить лайк с сервера
+function deleteLike(cardId) {
+  return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
+    method: 'DELETE',
+    headers: config.headers
+  })
+    .then(getAnswerFromServer);
+}
+
+//Обновить аватарку на сервере
+function patchAvatarOnServer(avatar) {
+  return fetch(`${config.baseUrl}/users/me/avatar`, {
+    method: 'PATCH',
+    headers: config.headers,
     body: JSON.stringify({
       avatar,
     }),
-  }).then(handleApiReturn);
-}
-
-//Обновить данные Профиля
-export function updateProfileInfo(data) {
-  return fetch(`${requestConfig.baseUrl}/users/me`, {
-    method: 'PATCH',
-    headers: requestConfig.headers,
-    body: JSON.stringify({
-      name: data.name,
-      about: data.job,
-    }),
-  }).then(handleApiReturn);
-}
-
-//Функция добавить новую карточку на сервер
-export function addNewCard(data) {
-  return fetch(`${requestConfig.baseUrl}/cards`, {
-    method: 'POST',
-    headers: requestConfig.headers,
-    body: JSON.stringify({
-      name: data.name,
-      link: data.link,
-    }),
-  }).then(handleApiReturn);
-}
-
-//Добавить лайк
-export function addLike(cardId) {
-  return fetch(`${requestConfig.baseUrl}/cards/likes/${cardId}`, {
-    method: 'PUT',
-    headers: requestConfig.headers,
-  }).then(handleApiReturn);
-}
-
-//Удалить карточку с сервера
-export function deleteCardFromServer(cardId) {
-  return fetch(`${requestConfig.baseUrl}/cards/${cardId}`, {
-    method: 'DELETE',
-    headers: requestConfig.headers,
-  }).then(handleApiReturn);
-}
-
-//Удалить лайк
-export function deleteLike(cardId) {
-  return fetch(`${requestConfig.baseUrl}/cards/likes/${cardId}`, {
-    method: 'DELETE',
-    headers: requestConfig.headers,
-  }).then(handleApiReturn);
+  }).then(getAnswerFromServer);
 }

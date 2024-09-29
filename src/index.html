@@ -14,7 +14,7 @@
   </header>
   <main class="content">
     <section class="profile page__section">
-      <div class="profile__image" style="background-image: url(<%=require('./images/avatar.jpg')%>)"></div>
+      <div class="profile__image"></div>
       <div class="profile__info">
         <h1 class="profile__title"></h1>
         <button class="profile__edit-button" type="button"></button>
@@ -40,17 +40,15 @@
         <input
           type="url"
           name="link"
-          id="input_type_avatar-url"
-          class="popup__input popup__input_type_url"
+          id="input_type_avatar"
+          class="popup__input popup__input_type_avatar"
           placeholder="Ссылка на картинку"
-          pattern="^https?:\/\/\S+\.\S+$"
-          data-error-message="Введите адрес ccылки на картинку"
+          pattern="[Hh][Tt][Tt][Pp][Ss]?:\/\/(?:(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)(?:\.(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)*(?:\.(?:[a-zA-Z\u00a1-\uffff]{2,}))(?::\d{2,5})?(?:\/[^\s]*)?"
+          data-error-message="Введите адрес картинки"
           required
         />
-        <span class="span input_type_avatar-url-error"></span>
-        <button type="submit" class="button popup__button">
-          Сохранить
-        </button>
+        <span class="span-error input_type_avatar-error"></span>
+        <button type="submit" class="button popup__button">Сохранить</button>
       </form>
     </div>
   </div>
@@ -61,28 +59,28 @@
       <form class="popup__form" name="edit-profile" novalidate>
         <input 
           type="text" 
-          name="name"
-          id="input_type_name" 
+          name="name" 
+          id="input_type_name"
           class="popup__input popup__input_type_name" 
           placeholder="Имя"
           minlength="2"
           maxlength="40"
-          pattern="^[a-zA-Zа-яА-ЯёЁ\-\s]+$"
-          data-error-message="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы" 
+          pattern="^[A-Za-zА-Яа-яЁё\s\-]+$"
+          data-error-message="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы"
           required>
         <span class="span-error input_type_name-error"></span>
         <input 
           type="text" 
-          name="description" 
+          name="description"
           id="input_type_description"
           class="popup__input popup__input_type_description" 
-          placeholder="Занятие"
+          placeholder="О себе" 
           minlength="2"
           maxlength="200"
-          pattern="^[a-zA-Zа-яА-ЯёЁ\-\s]+$"
+          pattern="^[A-Za-zА-Яа-яЁё\s\-]+$"
           data-error-message="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы"
           required>
-        <span class="span-error input_type_description-error"></span> 
+        <span class="span-error input_type_description-error"></span>
         <button type="submit" class="button popup__button">Сохранить</button>
       </form>
     </div>
@@ -100,7 +98,7 @@
           placeholder="Название"
           minlength="2"
           maxlength="30"
-          pattern="^[a-zA-Zа-яА-ЯёЁ\-\s]+$" 
+          pattern="^[A-Za-zА-Яа-яЁё\s\-]+$" 
           data-error-message="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы"
           required>
         <span class="span-error input_type_card-name-error"></span>
@@ -109,21 +107,12 @@
           name="link" 
           id="input_type_url"
           class="popup__input popup__input_type_url" 
-          placeholder="Ссылка на картинку"
-          pattern="^https?:\/\/\S+\.\S+$" 
-          data-error-message="Введите адрес сайта"
+          placeholder="Ссылка на картинку" 
+          pattern="[Hh][Tt][Tt][Pp][Ss]?:\/\/(?:(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)(?:\.(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)*(?:\.(?:[a-zA-Z\u00a1-\uffff]{2,}))(?::\d{2,5})?(?:\/[^\s]*)?"
+          data-error-message="Введите адрес сайта."
           required>
         <span class="span-error input_type_url-error"></span>
         <button type="submit" class="button popup__button">Сохранить</button>
-      </form>
-    </div>
-  </div>
-  <div class="popup popup_type_confirm-delete popup_is-animated">
-    <div class="popup__content popup__content_confirm-delete">
-      <button type="button" class="popup__close"></button>
-      <h3 class="popup__title">Вы уверены?</h3>
-      <form class="popup__form popup__form_confirm-delete" name="confirm-delete" novalidate="">
-        <button type="submit" class="button popup__button popup__button_confirm-delete">Да</button>
       </form>
     </div>
   </div>
@@ -132,6 +121,15 @@
       <button type="button" class="popup__close"></button>
       <img src="" alt="" class="popup__image">
       <p class="popup__caption"></p>
+    </div>
+  </div>
+  <div class="popup popup_type_confirmation-delete popup_is-animated">
+    <div class="popup__content popup__content_confirmation-delete">
+      <button type="button" class="popup__close"></button>
+      <h3 class="popup__title">Вы уверены?</h3>
+      <form class="popup__form popup__form_confirmation-delete" name="confirmation-delete" novalidate="">
+        <button type="submit" class="button popup__button popup__button_confirmation-delete">Да</button>
+      </form>
     </div>
   </div>
 </div>
@@ -143,7 +141,7 @@
     <div class="card__description">
       <h2 class="card__title">
       </h2>
-      <div class="card__like-section">
+      <div class="card__like-container">
         <button type="button" class="card__like-button"></button>
         <span class="card__like-counter"></span>
       </div>

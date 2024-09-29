@@ -1,3 +1,7 @@
+//Кажется я понял. И подумал почему Esc так же нельзя сделать? Но не стал делать вдруг это пока что не затрагивает но в будущем будут проблемы с ним
+//Думал добавить: document.addEventListener('keydown', closeModalByEsc);
+//В функцию: setCloseModalByClickListeners
+
 export function setCloseModalByClickListeners(popupList) {
   popupList.forEach(popup => {
     // находим кнопку закрытия попапа
