@@ -1,6 +1,6 @@
 import '../index.css';
 // import { initialCards } from './cards.js';
-import { createCard, deleteCard} from './card.js';
+import { createCard, deleteCard, deleteClassactiveLike, addClassactiveLike} from './card.js';
 import { openModal, closeModal, setCloseModalByClickListeners} from './modal.js';
 import { enableValidation, clearValidation, validationConfig} from './validation.js';
 import { 
@@ -8,6 +8,7 @@ import {
   patchInfoProfileOnServer,
   getInfoCardsFromServer,
   patchCardsOnServer,
+  deleteCardOnServer,
   addLike,
   deleteLike,
   patchAvatarOnServer
@@ -46,6 +47,7 @@ const newPlaceForm = document.forms['new-place'];
 //Переменные: Модальный окна карточки
 const typeImagePopup = document.querySelector('.popup_type_image');
 const popupImage = typeImagePopup.querySelector('.popup__image');
+const popupImageCaption = typeImagePopup.querySelector('.popup__caption');
 
 //Переменные: Аватарка
 const avatarImage = document.querySelector('.profile__image');
@@ -89,7 +91,7 @@ function openImageModal(result) {
   openModal(typeImagePopup);  
   popupImage.src = result.link;
   popupImage.alt = result.name;
-  typeImagePopup.querySelector('.popup__caption').textContent = result.name;
+  popupImageCaption.textContent = result.name;
 };
 
 //Работа: Процесс ожидния загрузки на сервер. Кнопка - Сохранить
@@ -125,8 +127,7 @@ function changeLike(cardId, event, likesCounter) {
   if (isLiked) {
     deleteLike(cardId)
       .then((result) => {
-        event.target.classList.remove('card__like-button_is-active');
-        likesCounter.textContent = result.likes.length;
+        deleteClassactiveLike(event, result, likesCounter)
       })
       .catch((err) => {
         console.log(err);
@@ -134,8 +135,7 @@ function changeLike(cardId, event, likesCounter) {
   } else {
     addLike(cardId)
       .then((result) => {
-        event.target.classList.add('card__like-button_is-active');
-        likesCounter.textContent = result.likes.length;
+        addClassactiveLike(event, result, likesCounter)
       })
       .catch((err) => {
         console.log(err);
@@ -159,7 +159,7 @@ function handleFormSubmit(event) {
     case 'edit-profile':
       result.name = formElement.elements['name'].value;
       result.job = formElement.elements['description'].value;
-      addInfoProfileOnServer(result, formSubmitButton);
+      changeInfoProfileOnServer(result, formSubmitButton);
       break;
     case 'new-place':
       result.name = formElement.elements['place-name'].value;
@@ -178,8 +178,8 @@ function handleFormSubmit(event) {
   }
 }
 
-// Работа: Отправить данные профиля на сервер
-function addInfoProfileOnServer(result, button) {
+// Работа: Изменить данные профиля на сервер
+function changeInfoProfileOnServer(result, button) {
   playScreensaver(true, button);
   patchInfoProfileOnServer(result)
     .then((resultProile) => {
@@ -216,15 +216,15 @@ function openDeleteModal(card) {
 //Работа: Удалить с сервера карточку через корзинку
 function deleteCardBasket() {
   cardId = cardToDelete.getAttribute('card-id');
-  deleteCard(cardId)
+  deleteCardOnServer(cardId)
     .then(() => {
-      cardToDelete.closest('.card').remove();
-      cardToDelete.querySelector('.card__delete-button').removeEventListener('submit', openDeleteModal);
-      closeModal(confirmationDeletePopup, confirmDeleteForm);
+      deleteCard(cardId);
+      ;
     })
     .catch((err) => {
       console.log(err);
     })
+    .finally(() => closeModal(confirmationDeletePopup, confirmDeleteForm));
 }
 
 //Работа: Добавить новую аватарку

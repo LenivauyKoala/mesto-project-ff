@@ -1,5 +1,3 @@
-import { deleteCardOnServer } from './api';
-
 const cardTemplate = document.querySelector('#card-template').content;
 
 export function createCard(result, openDeleteModal, openImageModal, changeLike, userId) {
@@ -42,5 +40,16 @@ export function createCard(result, openDeleteModal, openImageModal, changeLike, 
 }
 
 export function deleteCard(cardId) {
-  return deleteCardOnServer(cardId);
+  const li = document.querySelector(`[card-id="${cardId}"]`) //Ищем карточку по её атрибуту
+  li.remove();
+}
+
+export function deleteClassactiveLike(event, result, likesCounter) {
+  event.target.classList.remove('card__like-button_is-active');
+  likesCounter.textContent = result.likes.length;
+}
+
+export function addClassactiveLike(event, result, likesCounter) {
+  event.target.classList.add('card__like-button_is-active');
+  likesCounter.textContent = result.likes.length;
 }
