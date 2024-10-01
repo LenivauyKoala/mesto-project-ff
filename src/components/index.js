@@ -218,7 +218,7 @@ function deleteCardBasket() {
   cardId = cardToDelete.getAttribute('card-id');
   deleteCardOnServer(cardId)
     .then(() => {
-      deleteCard(cardId);
+      deleteCard(cardToDelete);
       ;
     })
     .catch((err) => {

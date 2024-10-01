@@ -39,9 +39,8 @@ export function createCard(result, openDeleteModal, openImageModal, changeLike, 
   return cardElement;
 }
 
-export function deleteCard(cardId) {
-  const li = document.querySelector(`[card-id="${cardId}"]`) //Ищем карточку по её атрибуту
-  li.remove();
+export function deleteCard(cardToDelete) {
+  cardToDelete.remove();
 }
 
 export function deleteClassactiveLike(event, result, likesCounter) {
